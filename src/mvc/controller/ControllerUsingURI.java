@@ -52,7 +52,7 @@ public class ControllerUsingURI extends HttpServlet {
 		try (FileReader fr = new FileReader(filePath);) { // FileReader는 문자단위 스트림
 		
 			
-		Properties properties = new Properties();
+		Properties properties = new Properties(); 
 		properties.load(fr); //properties파일 안에 있는 값을 키, 벨류로 읽어오는 메소드 load();
 				
 		Set<Object> keys = properties.keySet();
@@ -65,7 +65,7 @@ public class ControllerUsingURI extends HttpServlet {
 				Class c = Class.forName(className);
 				Object o = c.newInstance();
 				CommandHandler handler = (CommandHandler) o;
-				map.put((String) key, handler); // properties를 읽어 map을 만들어 놓은 상태
+				map.put((String) key, handler); // properties를 읽어 map을 만들어 놓은 상태, // 서버 시작시 commandHandler.properties파일을 열어 url명령과 처리할 서블릿 객체를 Map 객체를 통해 목록화 시켜 가지고 있고 명령이 들어올 때마다 Map에서 ㅇㄹ맞은 객체를 꺼내 process 메소드를 호출
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -163,8 +163,9 @@ public class ControllerUsingURI extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		request.getRequestDispatcher(prefix + view + suffix).forward(request, response);
-		
+		if (view != null) { // view가 not null일 경우에만 포워딩 되기 때문에 null이 반환된 경우 아무것도 하지 않는다(그냥 response객체를 반환)
+			request.getRequestDispatcher(prefix + view + suffix).forward(request, response);
+		}
 		
 	}
 
