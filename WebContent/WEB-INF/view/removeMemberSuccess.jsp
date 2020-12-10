@@ -13,7 +13,7 @@
 </head>
 <body>
 <div class="container">
-<h1>${param.name }님 회원가입에 성공하셨습니다.</h1>
+	<h1>회원 탈퇴 되었습니다.</h1>
 </div>
 </body>
 </html>

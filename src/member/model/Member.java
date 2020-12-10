@@ -44,4 +44,8 @@ public class Member { // 테이블, 칼럼 테이블에서 가져온 데이터�
 	public boolean matchPassword(String pwd) { // 회원가입시 패스워드와 확인용 패스워드가 일치하는지 검사하는 메서드 정의
 		return password.equals(pwd); // 필드 password와 파라미터로 받는 pwd가 같으면 true를 리턴
 	}
+	
+	public void changePassword(String newPwd) {
+		this.password = newPwd;
+	}
 }

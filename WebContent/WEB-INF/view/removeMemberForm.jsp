@@ -13,7 +13,12 @@
 </head>
 <body>
 <div class="container">
-<h1>${param.name }님 회원가입에 성공하셨습니다.</h1>
+	<h1>회원 탈퇴</h1>
+	<form action="removeMember.do" method="post">
+	 암호 : <input type="password" name="password" id=""/>
+	 <br />
+	 <input type="submit" value="탈퇴" />
+	</form>
 </div>
 </body>
 </html>
