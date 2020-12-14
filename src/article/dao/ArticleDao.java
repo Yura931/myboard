@@ -16,34 +16,103 @@ import article.model.Writer;
 import jdbc.JdbcUtil;
 
 public class ArticleDao {
+	
+	public int delete(Connection conn, int no) throws SQLException {
+		String sql = "DELETE article "
+				   + "WHERE article_no=?";
+		PreparedStatement pstmt = null;
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, no);
+			
+			int cnt = pstmt.executeUpdate();
+					
+			return cnt;
+		} finally {
+			JdbcUtil.close(pstmt);
+		}
+	}
+	
+	public int update(Connection conn, int no, String title) throws SQLException {
+		String sql = "UPDATE article "
+				   + "SET title=?, moddate=SYSDATE "
+				   + "WHERE articl_no=?";
+		PreparedStatement pstmt = null;
+		
+		try { 
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, title);
+			pstmt.setInt(2, no);
+			
+			int cnt = pstmt.executeUpdate();
+				
+			return cnt;
+			
+			} finally {
+				JdbcUtil.close(pstmt);
+			}				
+	}
+	
+	public Article selectById(Connection conn, int no) throws SQLException { // 하나의 Article을 담아 Article객체로 반환 시켜주는 역할
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+			String sql = "SELECT * FROM article WHERE article_no=?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, no);
+			rs = pstmt.executeQuery();
+			
+			Article article = null;
+		
+			if (rs.next()) {
+				article = convertArticle(rs);
+			}
+			return article;
+		} finally {
+			JdbcUtil.close(rs, pstmt);
+		}
+	}
+	
+	public void increaseReadCount(Connection conn, int no) throws SQLException {
+		String sql = "UPDATE article set read_cnt = read_cnt + 1 "
+				   + "WHERE article_no = ?";
+		
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			pstmt.setInt(1, no);
+			pstmt.executeUpdate();
+		}
+	}
+	
 	public List<Article> select(Connection conn, int pageNum, int size) throws SQLException { // mysql은 limit함수 사용으로 ?에 받는 숫자를 startRow와 size 파라미터에 넣어주면 간편하지만, 오라클은 파라미터를 시작번호와 사이즈로 받기 불편
 		
 		String sql = "SELECT " // 오라클 페이징 방법, 다양한 방법이 있음
-				   + "rn, "
-				   + "article_no, "
-				   + "writer_id, "
-				   + "writer_name, "
-				   + "title, "
-				   + "regdate, "
-				   + "moddate, "
-				   + "read_cnt "
-				   + "FROM ( "
-				   + "SELECT article_no, "
-				   + " 		 writer_id,"
-				   + " 		 wirter_name, "
-				   + "		 title, "
-				   + "       regdate, "
-				   + "		 moddate, "
-				   + "		 read_cnt, "
-				   + "		 ROW_NUMBER() "
-				   + "		 OVER ( "
-				   + "		 ORDER BY "
-				   + "		 article_no "
-				   + "		 DESC)"
-				   + "			rn"
-				   + " FROM article "
-				   + ") WHERE rn "
-				   + "	BETWEEN ? AND ?";
+				+ "rn, "
+				+ "article_no, "
+				+ "writer_id, "
+				+ "writer_name, "
+				+ "title, "
+				+ "regdate, "
+				+ "moddate, "
+				+ "read_cnt "
+				+ "FROM ("
+				+ "	SELECT article_no, "
+				+ " 		   writer_id, "
+				+ "        writer_name, "
+				+ "        title, "
+				+ "        regdate, "
+				+ "        moddate, "
+				+ "        read_cnt, "
+				+ "        ROW_NUMBER() "
+				+ "          OVER ( "
+				+ "            ORDER BY "
+				+ "            article_no "
+				+ "            DESC) "
+				+ "        rn "
+				+ "  FROM article "
+				+ ") WHERE rn "
+				+ "    BETWEEN ? AND ?";
 				   
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -51,16 +120,17 @@ public class ArticleDao {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, (pageNum-1) * size + 1);
-			pstmt.setInt(2, (pageNum * size));
+			pstmt.setInt(2, pageNum * size);
 			
 			rs = pstmt.executeQuery();
 			List<Article> result = new ArrayList<>();
 			while (rs.next()) {
 				result.add(convertArticle(rs));
 			}
+			
 			return result;
 		} finally {
-			JdbcUtil.close(rs,pstmt);
+			JdbcUtil.close(rs, pstmt);
 		}
 		
 		/*
@@ -70,16 +140,16 @@ public class ArticleDao {
 		}
 	
 	private Article convertArticle(ResultSet rs) throws SQLException {
-		return new Article(rs.getInt("article_no"), 
-				new Writer(
-						rs.getString("writer_id"),
-						rs.getString("writer_name_")
-						),
-						rs.getString("title"),
-						rs.getTimestamp("regdate"), //Timestamp가 곧 Date
-						rs.getTimestamp("moddate"),
-						rs.getInt("read_cnt")
-						);
+		return new Article(rs.getInt("article_no"),
+					new Writer(
+							rs.getString("writer_id"),
+							rs.getString("writer_name")
+							),
+					rs.getString("title"),
+					rs.getTimestamp("regdate"),
+					rs.getTimestamp("moddate"),
+					rs.getInt("read_cnt")
+				);
 	}
 	
 	// 전체게시글 파악 쿼리
