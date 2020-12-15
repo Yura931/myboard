@@ -10,7 +10,6 @@ import article.model.ArticleContent;
 import jdbc.ConnectionProvider;
 
 public class ReadArticleService {
-	
 	private ArticleDao articleDao = new ArticleDao();
 	private ArticleContentDao contentDao = new ArticleContentDao();
 	
@@ -20,15 +19,17 @@ public class ReadArticleService {
 			if (article == null) {
 				throw new ArticleNotFoundException();
 			}
+			
 			ArticleContent content = contentDao.selectById(conn, articleNum);
 			if (content == null) {
 				throw new ArticleContentNotFoundException();
 			}
 			if (increaseReadCount) {
 				articleDao.increaseReadCount(conn, articleNum);
-			} 
+			}
 			return new ArticleData(article, content);
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 	}

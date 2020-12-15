@@ -92,17 +92,17 @@ public class ControllerUsingURI extends HttpServlet {
 	}
 	
 	private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String uri = request.getRequestURI();
-		String root = request.getContextPath();
+		String uri = request.getRequestURI(); // /myboard/*.do 경로
+		String root = request.getContextPath(); // /myboard
 		
 		String command = "";
-		if (uri.startsWith(root)) {
-			command = uri.substring(root.length());
+		if (uri.startsWith(root)) { // uri변수의 경로가 root경로로 시작하면
+			command = uri.substring(root.length()); // command변수에 root변수의 길이를 뺀 나머지 경로 저장 -> *.do
 		} //경로에서 command를 뽑아냄
-		CommandHandler handler = map.get(command);
+		CommandHandler handler = map.get(command); //  
 		
 		if (handler == null) {
-			handler = new NullHandler();
+			handler = new NullHandler(); // handler의 경로가 아닌 다른경로 요청시 NullHandler 실행
 		}
 		
 		/*

@@ -4,7 +4,6 @@ import article.model.Article;
 import article.model.ArticleContent;
 
 public class ArticleData {
-	
 	private Article article;
 	private ArticleContent content;
 	
@@ -16,8 +15,9 @@ public class ArticleData {
 	public Article getArticle() {
 		return article;
 	}
-	
-	public String getContent() {
-		return content.getContent();
+	public ArticleContent getContent() {
+		return content;
 	}
+	
+	
 }

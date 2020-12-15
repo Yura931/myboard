@@ -33,7 +33,7 @@ public class JoinService {
 			member.setName(joinReq.getName());
 			member.setPassword(joinReq.getPassword());
 		
-			memberDao.insert(con, member); // ID가 존재하지 않을 경우 memberDao.insert() 메소드로 입력받은 JoinRequest 객체로 Member DTO객첼르 생성하여 insert하고 끝
+			memberDao.insert(con, member); // ID가 존재하지 않을 경우 memberDao.insert() 메소드로 입력받은 JoinRequest 객체로 Member DTO객체를 생성하여 insert하고 끝
 			// memberDao insert메소드에 member객체를 담아 일을 시킴, joinReq에 담아져있던 정보 그대로 담아서 일을 시킴
 			// 같은 커넥션을 받개 함, 같은 트랜잭션이기 때문에
 			con.commit();

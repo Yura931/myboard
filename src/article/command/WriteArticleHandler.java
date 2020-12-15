@@ -12,7 +12,7 @@ import article.service.WriteRequest;
 import auth.service.User;
 import mvc.command.CommandHandler;
 
-public class WriteArticleHandler implements CommandHandler{
+public class WriteArticleHandler implements CommandHandler {
 	private static final String FORM_VIEW = "newArticleForm";
 	private WriteArticleService writeService = new WriteArticleService();
 	
@@ -38,7 +38,7 @@ public class WriteArticleHandler implements CommandHandler{
 		
 		User user = (User) req.getSession().getAttribute("authUser");
 		WriteRequest writeReq = createWriteRequest(user, req);
-		writeReq.validate(errors); // (title == null || title.trim().isEmpty()
+		writeReq.validate(errors);
 		
 		if (!errors.isEmpty()) {
 			return FORM_VIEW;
@@ -51,7 +51,9 @@ public class WriteArticleHandler implements CommandHandler{
 	}
 	
 	private WriteRequest createWriteRequest(User user, HttpServletRequest req) {
-		return new WriteRequest(new Writer(user.getId(), user.getName()), //
-				req.getParameter("title"), req.getParameter("content"));
+		return new WriteRequest(new Writer(user.getId(),
+				user.getName()),
+				req.getParameter("title"),
+				req.getParameter("content"));
 	}
 }
