@@ -1,6 +1,7 @@
 package auth.command;
 
 import java.util.HashMap;
+
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,7 +50,7 @@ public class LoginHandler implements CommandHandler{
 		}
 		
 		try {
-			User user = loginService.login(id,  password); // 적절한 서비서에 적절한 일을 하게 하는 것, 오류가 없으면 User객체가 일을 하게 됨
+			User user = loginService.login(id,  password); // 적절한 서비서에 적절한 일을 하게 하는 것, 오류가 없으면 User객체가 일을 하게 됨 login메소드에 파라미터로 받아온 id와 패스워드를 인자로 넘겨줌
 			req.getSession().setAttribute("authUser", user); // request로부터 getSession메소드로 session을 꺼냄,
 			// session에 넣어둬야 다음 요청이 왔을 때 얘가 로그인 된 유저라는 것을 알 수 있음, 같은 브라우저에 온 요청에 어스유저가 남아있다면 로그인되어있다는 것을 판단할 수 있음
 			res.sendRedirect(req.getContextPath() + "/index.jsp"); // redirect후 포워드 불가능, null을 리턴 함

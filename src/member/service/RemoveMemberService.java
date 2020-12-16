@@ -30,8 +30,8 @@ public class RemoveMemberService {
 			}
 			
 			
-			String id = member.getId();
-			memberDao.delete(conn, id);
+			
+			memberDao.delete(conn, user.getId());
 			conn.commit();
 			
 		} catch (SQLException e) {

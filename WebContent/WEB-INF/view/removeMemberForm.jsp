@@ -12,13 +12,65 @@
 <title>Insert title here</title>
 </head>
 <body>
+
 <div class="container">
-	<h1>회원 탈퇴</h1>
-	<form action="removeMember.do" method="post">
-	 암호 : <input type="password" name="password" id=""/>
-	 <br />
-	 <input type="submit" value="탈퇴" />
-	</form>
+	<div class="row">
+		<div class="col-3"></div>
+		<div class="col-6">
+		<h1>회원 탈퇴</h1>
+			<form action="${root }/removeMember.do" method="post">
+			<div class="form-group">
+				<label for="input1-password">암호</label>
+				<input type="password" name="password" id="input1-password"/>
+					<c:if test="${errors.password }">
+					<small class="form-text text-muted">패스워드를 입력해주세요.</small>
+					</c:if>
+					<c:if test="${errors.invalidPassword }">
+					<small class="form-text text-muted">패스워드를 입력해주세요.</small>
+					</c:if>
+			</div>
+				<button class="btn btn-primary">탈퇴</button>
+			</form>
+		</div>
+	</div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<%--
+<div class="container">
+  <h1>회원 탈퇴</h1>
+  <form action="removeMember.do" method="post">
+  
+    암호 : <input type="password" name="password" id="" />
+    <c:if test="${errors.password }">패스워드를 입력해주세요.</c:if>
+    <c:if test="${errors.invalidPassword }">패스워드가 일치하지 않습니다.</c:if>
+    <br />
+    <input type="submit" value="탈퇴" />
+  </form>
+</div>
+ --%>
 </body>
 </html>

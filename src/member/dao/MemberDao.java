@@ -1,6 +1,7 @@
 package member.dao;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -55,12 +56,13 @@ public class MemberDao { // 실제 member테이블에 멤버를 추가하고 기
 			rs = pstmt.executeQuery();
 			
 			if (rs.next()) {
-				member = new Member();
-				member.setId(rs.getString(1));
-				member.setName(rs.getString(2));
-				member.setPassword(rs.getString(3));
+				member = new Member(); // 객체 생성
+				// WHERE절의 조건을 만족하는 memberid를 가진 사람의
+				member.setId(rs.getString(1));  // memberid
+				member.setName(rs.getString(2)); // name
+				member.setPassword(rs.getString(3)); // password
 				member.setRegDate(rs.getTimestamp(4)); // 날짜와 시간을 다 얻어오는 ResultSet의 메소드 Timestamp
-			}
+			} // 저장
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -70,7 +72,7 @@ public class MemberDao { // 실제 member테이블에 멤버를 추가하고 기
 		}
 				
 		
-		return member;
+		return member; // if문이 실행되면서 저장된 정보들을 가진 member객체 생성, 생성된 객체를 Member클래스로 리턴
 	}
 	
 	public void insert(Connection con, Member member) throws SQLException{

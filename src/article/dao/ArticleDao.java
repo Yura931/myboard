@@ -192,26 +192,33 @@ public Article insert(Connection conn, Article article) throws SQLException {
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	
-	try {
-		pstmt = conn.prepareStatement(sql, new String[] {"article_no", "regdate", "moddate"}); // 지정된 배열에 의해 자동생성된 배열 인덱스번호를 돌려주는 기능?
+	try {		
+		pstmt = conn.prepareStatement(sql, new String[] {"article_no", "regdate", "moddate"}); 	// generated로 정해놓은 article_no칼럼은 자동증가 값이기 때문에 insert시 바로 값을 알 수 없음. 
+		// ex) 마지막 insert한 article_no가 6이여도 6이라는 숫자를 직접 넣어준 것이 아닌 자동생성된 값이므로 SELECT 하기전에는 알 수 없는 값.
+
+		//INSERT 후 SELECT 할 때 알 수 있는 정보들
+		// 지정된 배열에 의해 자동생성된 배열 인덱스번호를 돌려주는 기능?
 		
 		pstmt.setString(1, article.getWriter().getId()); // writer의 id
 		pstmt.setString(2, article.getWriter().getName()); // writer의 name
 		pstmt.setString(3, article.getTitle()); // title 저장
 		
-		int cnt = pstmt.executeUpdate();
+		int cnt = pstmt.executeUpdate(); // update 후 변동 로우가 1이되면 , 생성된 행의 키를 받아오는 메소드 실행
 		
-		if (cnt == 1) {
-			rs = pstmt.getGeneratedKeys(); // update 후 변동 로우가 1이되면 , 생성된 행의 키를 받아오는 메소드 실행
+		if (cnt == 1) {			
+			rs = pstmt.getGeneratedKeys(); // new String[] 값 들을 insert와 동시에 값을 얻어오기 위해 실행시키는 메소드
 			int key = 0;
 			Date regDate = null;
 			Date modDate = null;
-			if (rs.next()) { // getGeneratedKeys()메소드를 실행중인 rs의 next()메소드 실행 
-				key = rs.getInt(1);  
-				regDate = rs.getTimestamp(2);
-				modDate = rs.getTimestamp(3);
+			
+			if (rs.next()) { // getGeneratedKeys()메소드를 실행중인 rs의 next()메소드 실행 ,regdate와 moddate값이 insert와 동시에 가져와짐
+				// String[] 배열 안의 값을 실행 시킨 듯? ..
+				key = rs.getInt(1);  // article_no
+				regDate = rs.getTimestamp(2); // regdate
+				modDate = rs.getTimestamp(3); // moddate
 			}
-			return new Article(key, // if문을 다 실행하고 나면 rs.getInt로 받아온 번호를 가지고 있는 key(writer_id), getWriter,getTitle,regDate,modDate,0을 파라미터로 받는 새 Article객체 생성 후 리턴
+			
+			return new Article(key, // if문을 다 실행하고 나면 rs.getInt로 받아온 번호를 가지고 있는 key(article_no, getWriter,getTitle,regDate,modDate,0을 파라미터로 받는 새 Article객체 생성 후 리턴
 					article.getWriter(),
 					article.getTitle(),
 					regDate,
