@@ -3,6 +3,7 @@ package article.model;
 public class Writer {
 	private String id;
 	private String name;
+	
 	public Writer(String id, String name) {
 		super();
 		this.id = id;

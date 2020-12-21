@@ -24,7 +24,7 @@ public class ArticlePage {
 					this.totalPages++; 
 				}
 				
-				this.startPage = (currentPage - 1) / 5 * 5 + 1;
+				this.startPage = (currentPage - 1) / 5 * 5 + 1;  
 				this.endPage = Math.min(startPage + 4, totalPages);
 			}
 		}

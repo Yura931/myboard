@@ -14,10 +14,10 @@ public class ListArticleService {
 	
 	public ArticlePage getArticlePage(int pageNum) {
 		try (Connection conn = ConnectionProvider.getConnection()) {
-			int total = articleDao.selectCount(conn);
-			List<Article> content = articleDao.select(conn, pageNum, size);
+			int total = articleDao.selectCount(conn); // 전체 게시물 수
+			List<Article> content = articleDao.select(conn, pageNum, size); // 
 			
-			return new ArticlePage(total, pageNum, size, content);
+			return new ArticlePage(total, pageNum, size, content); 
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
