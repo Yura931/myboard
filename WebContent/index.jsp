@@ -26,7 +26,7 @@
 	<a href="login.do">[로그인하기]</a>
 </c:if>
  --%>
-<%--
+
 <u:isLogin>
 	${authUser.name }님, 안녕하세요
 	<a href="logout.do">[로그아웃하기]</a>
@@ -35,11 +35,11 @@
 </u:isLogin>
 
 <u:notLogin>
-	<a href="join.do"></a>
-	<a href="login.do"></a>
+	<a href="join.do">[회원가입]</a>
+	<a href="login.do">[로그인]</a>
 </u:notLogin>
- --%> 
- <div class="jumbotron">
+ 
+<!--  <div class="jumbotron">
   <h1 class="display-4">Hello, world!</h1>
   <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
   <hr class="my-4">
@@ -48,6 +48,6 @@
 </div>
 
 
-<br />
+<br /> -->
 </body>
 </html>

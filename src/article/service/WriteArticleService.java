@@ -29,7 +29,7 @@ public class WriteArticleService {
 			}
 			
 			ArticleContent content = new ArticleContent(
-					savedArticle.getNumber(),
+					savedArticle.getArticleNo(),
 					req.getContent()
 					);
 			
@@ -41,7 +41,7 @@ public class WriteArticleService {
 			
 			conn.commit();
 			
-			return savedArticle.getNumber();
+			return savedArticle.getArticleNo();
 		} catch (SQLException e) {
 			JdbcUtil.rollback(conn);
 			throw new RuntimeException(e);
