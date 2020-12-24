@@ -46,7 +46,7 @@ public class ArticleInsertTestServlet extends HttpServlet {
 		try (Connection conn = ConnectionProvider.getConnection()) {
 			Article n = dao.insert(conn, article);
 			if (n != null) {
-				System.out.println("key :" + n.getNumber());
+				System.out.println("key :" + n.getArticleNo());
 				System.out.println("regDate: " + n.getRegDate());
 				System.out.println("modDate: " + n.getModifiedDate());
 			} else {

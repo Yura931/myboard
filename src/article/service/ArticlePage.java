@@ -25,7 +25,7 @@ public class ArticlePage {
 				}
 				
 				this.startPage = (currentPage - 1) / 5 * 5 + 1;  
-				this.endPage = Math.min(startPage + 4, totalPages);
+				this.endPage = Math.min(startPage + 4, totalPages); // Math.min() 주어진 숫자들 중 가장 작은 값 반환
 			}
 		}
 

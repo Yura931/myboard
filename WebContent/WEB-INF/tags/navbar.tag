@@ -39,7 +39,7 @@
     	<li class="nav-item"><a href="${root }/logout.do" class="nav-link">로그아웃</a></li>
     	<li class="nav-item"><a href="${root }/removeMember.do" class="nav-link">탈퇴</a></li>
     </ul>
-    </u:isLogin>
-  </div>
+    </u:isLogin> 
+    </div>
 </div>
 </nav>

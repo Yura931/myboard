@@ -46,6 +46,7 @@ public class ModifyArticleHandler implements CommandHandler {
 				no,
 				req.getParameter("title"),
 				req.getParameter("content"));
+		
 		req.setAttribute("modReq", modReq);
 		
 		Map<String, Boolean> errors = new HashMap<>();
